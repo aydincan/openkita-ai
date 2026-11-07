@@ -1,0 +1,56 @@
+{
+  "language": "de",
+  "meeting_type": "team_meeting",
+  "title": "Teamsitzung",
+  "meta": {
+    "date": "12.05.2026",
+    "time": "15:00–16:30 Uhr",
+    "location": "Personalraum",
+    "chair": "Frau Beispiel",
+    "minute_taker": "Herr Muster",
+    "participants": ["Frau Beispiel", "Herr Muster", "Frau Probe", "Frau Test", "Herr Exempel"],
+    "absent": ["Frau Demo"]
+  },
+  "agenda_items": [
+    {
+      "number": 1,
+      "topic": "Sommerfest am 20.06. (14:00–17:00 Uhr, Garten)",
+      "summary": "Für das Buffet bringen die Eltern Speisen mit, die Kita stellt die Getränke. Als Spiele sind Sackhüpfen, Schminken und Dosenwerfen vorgesehen. Die Vorschulkinder haben einen Auftritt, Frau Test übt dafür ein Lied mit ihnen. Eine Alternative bei Regen wurde angesprochen, aber noch nicht geklärt.",
+      "decisions": [
+        "Der Elternbrief zum Sommerfest geht in der nächsten Woche hinaus; Frau Probe schreibt den Entwurf."
+      ],
+      "open_questions": [
+        "Ausweichmöglichkeit bei Regen – kann die Turnhalle genutzt werden?"
+      ]
+    },
+    {
+      "number": 2,
+      "topic": "Schließtage im zweiten Halbjahr",
+      "summary": "Es wurde vorgeschlagen, im Oktober zwei Teamtage einzuplanen. Eine Entscheidung erfolgt erst nach Rücksprache mit dem Träger.",
+      "decisions": [],
+      "open_questions": [
+        "Zustimmung des Trägers zu zwei Teamtagen im Oktober"
+      ]
+    },
+    {
+      "number": 3,
+      "topic": "Verschiedenes",
+      "summary": "Ab Juni gilt ein neuer Dienstplan; er hängt im Personalraum aus.",
+      "decisions": [],
+      "open_questions": []
+    }
+  ],
+  "tasks": [
+    { "task": "Entwurf des Elternbriefs zum Sommerfest schreiben", "responsible": "Frau Probe", "due": "[Frist Briefentwurf]", "agenda_item": 1, "status": "open" },
+    { "task": "Spiele für das Sommerfest organisieren und Material prüfen", "responsible": "Herr Exempel", "due": "Ende Mai 2026", "agenda_item": 1, "status": "open" },
+    { "task": "Lied mit den Vorschulkindern üben", "responsible": "Frau Test", "due": "[Frist Liedauftritt]", "agenda_item": 1, "status": "open" },
+    { "task": "Teamtage im Oktober mit dem Träger klären", "responsible": "Frau Beispiel", "due": "31.05.2026", "agenda_item": 2, "status": "open" }
+  ],
+  "next_meeting": "09.06.2026, 15:00 Uhr, [Ort nächste Sitzung]",
+  "missing_information": [
+    { "placeholder": "[Frist Briefentwurf]", "question": "Bis wann soll Frau Probe den Briefentwurf fertigstellen, damit der Brief nächste Woche hinausgehen kann?" },
+    { "placeholder": "[Frist Liedauftritt]", "question": "Gibt es einen Termin, bis zu dem das Lied sitzen soll (z. B. eine Generalprobe)?" },
+    { "placeholder": "[Ort nächste Sitzung]", "question": "Wo findet die nächste Teamsitzung statt?" }
+  ],
+  "warnings": []
+}

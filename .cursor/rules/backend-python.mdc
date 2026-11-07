@@ -1,0 +1,26 @@
+---
+description: FastAPI / Pydantic / SQLAlchemy / pytest conventions for the backend
+globs: backend/**/*.py
+alwaysApply: false
+---
+
+# Backend conventions (Python 3.12, FastAPI)
+
+- **Layering**: `app/api/routes` = HTTP only. `app/services` = use-case logic. Services receive engine/session, provider and settings (or plain values like timeouts) as arguments. They never import from `app.api`.
+- **Dependencies**: use the `Annotated` aliases in `app/api/deps.py` (`SettingsDep`, `EngineDep`, `DbSessionDep`, `AIProviderDep`). Shared resources live on `app.state`, created in the lifespan.
+- **Schemas**: Pydantic v2 models in `app/schemas`. Separate request/response models. Never return ORM objects directly.
+- **Config**: add fields to `Settings` in `app/core/config.py` (plain env names) and to `.env.example`. Unsafe combinations fail in a `field_validator`/`model_validator` (see `_external_ai_not_supported`).
+- **DB**: SQLAlchemy 2.0 async (`asyncpg`), typed `Mapped[...]` columns, Alembic migration per schema change. New domain tables get `facility_id` (ADR 0004).
+- **AI**: depend on `AIProvider` only (`app/ai/base.py`). *Planned*: calls that send content go through the tool executor (`app/tools`) and, for anything leaving the host, the Privacy Gateway (`app/security`).
+- **Errors**: no stack traces or secrets to clients. Map dependency failures to short, non-sensitive messages.
+- **Typing/lint**: `mypy --strict` and `ruff` (rules in `pyproject.toml`, line length 100) must pass.
+
+## Tests (pytest, `asyncio_mode=auto`)
+- Test happy path **and** failure/fail-closed paths. Mock Ollama/HTTP with `httpx` transports. Never call real services.
+- Use fictional data only (e.g. "Kind A", "Familie Beispiel").
+
+```python
+# ✅ services take explicit dependencies (see app/services/health.py) – testable without a server
+async def check_database(engine: AsyncEngine, timeout_seconds: float) -> ComponentHealth: ...
+async def get_health(engine: AsyncEngine, provider: AIProvider, settings: Settings) -> HealthResponse: ...
+```

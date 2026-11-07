@@ -1,0 +1,288 @@
+{
+  "01": [
+    {
+      "text": "This is OpenKita AI:",
+      "start": 0.1,
+      "end": 1.774
+    },
+    {
+      "text": "an open-source, self-hosted AI assistant for German Kitas and childcare providers.",
+      "start": 2.024,
+      "end": 7.265
+    },
+    {
+      "text": "Less paperwork.",
+      "start": 7.515,
+      "end": 8.325
+    },
+    {
+      "text": "Better communication.",
+      "start": 8.575,
+      "end": 9.594
+    },
+    {
+      "text": "More time for children.",
+      "start": 9.844,
+      "end": 10.931
+    }
+  ],
+  "02": [
+    {
+      "text": "Kita teams spend hours on paperwork:",
+      "start": 0.1,
+      "end": 2.001
+    },
+    {
+      "text": "letters, minutes, checklists, and the same questions again and again.",
+      "start": 2.251,
+      "end": 5.504
+    },
+    {
+      "text": "Every hour at the desk is an hour away from the children.",
+      "start": 5.754,
+      "end": 8.396
+    }
+  ],
+  "03": [
+    {
+      "text": "OpenKita AI is not another Kita management system.",
+      "start": 0.1,
+      "end": 3.449
+    },
+    {
+      "text": "It is an assistant that eases existing administration, designed to integrate with open-source Kita software such as KitaLux.",
+      "start": 3.699,
+      "end": 10.965
+    }
+  ],
+  "04": [
+    {
+      "text": "Three capabilities are planned.",
+      "start": 0.1,
+      "end": 1.461
+    },
+    {
+      "text": "A Parent Communication Assistant drafts newsletters and invitations in German and English, with experimental Turkish and Arabic that need native review.",
+      "start": 1.711,
+      "end": 10.347
+    },
+    {
+      "text": "An Administration Assistant turns notes into minutes and checklists.",
+      "start": 10.597,
+      "end": 14.091
+    },
+    {
+      "text": "A Knowledge Assistant answers from your documents, with sources.",
+      "start": 14.341,
+      "end": 17.385
+    }
+  ],
+  "05": [
+    {
+      "text": "Here is a mock-up of the planned flow, with fictional data.",
+      "start": 0.1,
+      "end": 2.833
+    },
+    {
+      "text": "The manager asks for a friendly summer party announcement, with a request for buffet contributions.",
+      "start": 3.083,
+      "end": 7.961
+    },
+    {
+      "text": "The assistant drafts a warm German text, ready to edit.",
+      "start": 8.211,
+      "end": 10.979
+    }
+  ],
+  "06": [
+    {
+      "text": "Then English, Turkish and Arabic versions appear.",
+      "start": 0.1,
+      "end": 2.422
+    },
+    {
+      "text": "Turkish and Arabic are experimental:",
+      "start": 2.672,
+      "end": 4.533
+    },
+    {
+      "text": "the default local model does not officially support them, so native review is required.",
+      "start": 4.783,
+      "end": 9.312
+    },
+    {
+      "text": "Every draft is marked as AI-generated, and nothing is sent until a person approves it.",
+      "start": 9.562,
+      "end": 14.456
+    }
+  ],
+  "07": [
+    {
+      "text": "Version 0.1 is designed to be local-only:",
+      "start": 0.1,
+      "end": 3.079
+    },
+    {
+      "text": "external AI is disabled and fails closed, there are no child profiles, and a person approves anything before it is sent.",
+      "start": 3.329,
+      "end": 10.17
+    },
+    {
+      "text": "Planned for version 0.3:",
+      "start": 10.42,
+      "end": 12.18
+    },
+    {
+      "text": "audit logs, and a Privacy Gateway that detects, minimises and verifies data before anything reaches an optional external provider, only after privacy tests.",
+      "start": 12.43,
+      "end": 21.645
+    },
+    {
+      "text": "This reduces risk; it does not guarantee GDPR compliance.",
+      "start": 21.895,
+      "end": 25.634
+    }
+  ],
+  "08": [
+    {
+      "text": "Everything is open source, licensed under Apache 2.0:",
+      "start": 0.1,
+      "end": 3.38
+    },
+    {
+      "text": "code, prompts, workflows, schema, API and Docker Compose deployment.",
+      "start": 3.63,
+      "end": 7.645
+    },
+    {
+      "text": "No proprietary edition.",
+      "start": 7.895,
+      "end": 9.192
+    },
+    {
+      "text": "Built with Next.js, FastAPI, PostgreSQL and Ollama.",
+      "start": 9.442,
+      "end": 12.877
+    },
+    {
+      "text": "Model weights have their own licences.",
+      "start": 13.127,
+      "end": 14.85
+    }
+  ],
+  "09": [
+    {
+      "text": "The software is free.",
+      "start": 0.1,
+      "end": 1.076
+    },
+    {
+      "text": "Revenue comes from services:",
+      "start": 1.326,
+      "end": 2.679
+    },
+    {
+      "text": "installation, configuration, integration, training, support and migration.",
+      "start": 2.929,
+      "end": 7.017
+    },
+    {
+      "text": "A test installation for one to three thousand euros is a hypothesis to validate.",
+      "start": 7.267,
+      "end": 11.609
+    }
+  ],
+  "10": [
+    {
+      "text": "One idea is the OpenKita Box, a private AI appliance installed on premises.",
+      "start": 0.1,
+      "end": 5.132
+    },
+    {
+      "text": "Prices are illustrative hypotheses, hardware obligations still need investigation, and we would sell to providers first.",
+      "start": 5.382,
+      "end": 12.285
+    }
+  ],
+  "11": [
+    {
+      "text": "Now the honest part:",
+      "start": 0.1,
+      "end": 1.118
+    },
+    {
+      "text": "this is not yet validated.",
+      "start": 1.368,
+      "end": 2.69
+    },
+    {
+      "text": "Version 0.1 is in progress:",
+      "start": 2.94,
+      "end": 4.991
+    },
+    {
+      "text": "the foundation is built, and the AI features are in development.",
+      "start": 5.241,
+      "end": 8.638
+    },
+    {
+      "text": "First we will interview five Kita managers, two providers and two educators, and ask what builds trust.",
+      "start": 8.888,
+      "end": 14.52
+    }
+  ],
+  "12": [
+    {
+      "text": "The roadmap:",
+      "start": 0.1,
+      "end": 0.666
+    },
+    {
+      "text": "version 0.1 is in progress, then the Knowledge Assistant, production readiness with the planned Privacy Gateway, integrations, and a multi-facility 1.0 release.",
+      "start": 0.916,
+      "end": 10.84
+    },
+    {
+      "text": "Later:",
+      "start": 11.09,
+      "end": 11.502
+    },
+    {
+      "text": "Austria, Switzerland and wider Europe.",
+      "start": 11.752,
+      "end": 13.635
+    }
+  ],
+  "13": [
+    {
+      "text": "Our ask:",
+      "start": 0.1,
+      "end": 0.602
+    },
+    {
+      "text": "Kita managers and Träger, join a thirty-minute interview to help us validate OpenKita AI.",
+      "start": 0.852,
+      "end": 6.662
+    },
+    {
+      "text": "The code is on GitHub; the link and a QR code are on screen.",
+      "start": 6.912,
+      "end": 10.015
+    },
+    {
+      "text": "Less paperwork.",
+      "start": 10.265,
+      "end": 11.075
+    },
+    {
+      "text": "Better communication.",
+      "start": 11.325,
+      "end": 12.343
+    },
+    {
+      "text": "More time for children.",
+      "start": 12.593,
+      "end": 13.68
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Three capabilities are planned. A Parent Communication Assistant drafts newsletters and invitations in German and English, with experimental Turkish and Arabic that need native review. An Administration Assistant turns notes into minutes and checklists. A Knowledge Assistant answers from your documents, with sources.

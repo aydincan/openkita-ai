@@ -1,0 +1,38 @@
+---
+description: Core product, privacy and engineering principles for OpenKita AI
+alwaysApply: true
+---
+
+# OpenKita AI – core rules
+
+OpenKita AI is an open-source, self-hosted, local-first AI assistant for German Kitas.
+It is **not** a Kita management system.
+
+## Product boundaries
+- No child profiles. No automated assessment of, or decision about, children or staff.
+- AI produces **drafts**. Any consequential action (send, publish, create/modify/delete outside the draft) needs explicit human approval.
+- Never let generated text claim an action was performed. Confirmations come from code results.
+- Knowledge answers cite sources and say when the information is not in the documents. Never invent policies.
+
+## Privacy (fail closed)
+- v0.1–v0.2: AI runs only on the local provider. External AI, the MCP server and the MCP client are refused at startup.
+- From v0.3, all data leaving the host (external AI, MCP) goes through the Privacy Gateway (`app/security`, planned; ADR 0003). No code path bypasses it.
+- Only LOW-risk, pseudonymised data may leave the host. Special-category data and MEDIUM/HIGH/UNKNOWN never do.
+- If a privacy, permission, validation or audit step errors or times out, refuse the action.
+- Never put real personal data (children, parents, staff) in code, tests, fixtures, examples, logs or commits. Use clearly fictional data.
+- Audit logs hold metadata only, never prompt or document content.
+
+## Architecture
+- Open source and self-hostable. No mandatory proprietary or cloud dependency. Check licences before adding deps.
+- Local-first AI via Ollama behind the provider interface (`app/ai/base.py`). Never import a vendor SDK in services.
+- All config via environment variables. Every new variable goes into `.env.example` with a safe default and no secrets.
+- German is the default UI and output language. All UI strings go through i18n catalogs.
+- No placeholder buttons or controls that do nothing. Unbuilt features show an honest "coming in a later version" state.
+
+## Way of working
+- Build incrementally. Keep the existing layering (`api → services → ai/models/documents/security`).
+  Planned packages `skills`, `tools` (central executor) and `mcp` sit between `services` and `ai/security` (see `docs/prd-addendum-skills-mcp.md`).
+- Roadmap: `docs/PRD.md` §7 is canonical. Don't build features ahead of their version.
+- Add tests for every implemented behaviour, including failure paths.
+- Record architectural decisions as ADRs in `docs/decisions/NNNN-title.md`.
+- Update `docs/architecture.md` when structure changes. Mark unbuilt parts as **planned**.

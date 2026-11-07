@@ -1,0 +1,12 @@
+# local tooling / large downloads — regenerate with the commands in README.md
+.venv/
+node_modules/
+models/
+__pycache__/
+*.pyc
+.cache/
+.DS_Store
+build/
+# regenerable intermediate (loudness-normalised full track; the build writes it to build/)
+audio/narration-full.wav
+*.wav

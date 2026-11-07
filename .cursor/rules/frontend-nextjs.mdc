@@ -1,0 +1,19 @@
+---
+description: Next.js App Router / TypeScript / Tailwind / a11y / i18n conventions for the frontend
+globs: frontend/**/*.ts,frontend/**/*.tsx,frontend/**/*.css
+alwaysApply: false
+---
+
+# Frontend conventions (Next.js App Router, TS strict, Tailwind v4)
+
+- **Structure**: routes in `src/app`, presentational UI in `src/components`, feature slices (hooks + components) in `src/features/<name>`, helpers/config/i18n in `src/lib`, backend-mirroring types in `src/types`. Import via `@/`.
+- **TypeScript**: `strict` + `noUncheckedIndexedAccess`. No `any`, no non-null `!` to silence errors.
+- **Server vs client**: Server Components by default. Add `"use client"` only where needed. Server-only modules import `server-only`.
+- **Backend access**: the browser talks only to the frontend origin. Use server route handlers that read `BACKEND_INTERNAL_URL`. Never expose it with `NEXT_PUBLIC_`.
+- **i18n**: no hard-coded UI strings. Add keys to `src/lib/i18n/messages/de.ts` (source of truth, defines the type), then to every other locale. German is the default.
+- **States**: every data view handles `loading`, `empty`, `error` (with a working retry) and `success`.
+- **No fake UI**: every button does something real. Unbuilt modules use `components/ui/ComingSoon.tsx`.
+- **AI output**: show the "KI-Entwurf" label, render it as plain text (no HTML, no auto-links, no remote images), and require explicit user confirmation before export. TR/AR output shows the "experimental language – fluent review required" warning.
+- **Approvals** (v0.3+): only through the logged-in UI session with CSRF protection. Show the diff between AI proposal and final values, plus sources.
+- **Accessibility**: semantic elements, labelled form controls, visible focus, WCAG-AA contrast, keyboard operable. Support `dir="rtl"` for Arabic.
+- **Tests**: Vitest + Testing Library for hooks and components, including error states. `npm run lint`, `typecheck` and `test` must pass.

@@ -1,0 +1,1 @@
+Then English, Turkish and Arabic versions appear. Turkish and Arabic are experimental: the default local model does not officially support them, so native review is required. Every draft is marked as AI-generated, and nothing is sent until a person approves it.

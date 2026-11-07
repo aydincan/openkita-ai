@@ -1,0 +1,1 @@
+OpenKita AI is not another Kita management system. It is an assistant that eases existing administration, designed to integrate with open-source Kita software such as KitaLux.

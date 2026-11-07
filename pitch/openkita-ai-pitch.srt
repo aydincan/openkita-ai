@@ -1,0 +1,262 @@
+1
+00:00:00,100 --> 00:00:02,629
+This is OpenKita AI: an open-source,
+
+2
+00:00:02,629 --> 00:00:07,265
+self-hosted AI assistant for German
+Kitas and childcare providers.
+
+3
+00:00:07,515 --> 00:00:08,325
+Less paperwork.
+
+4
+00:00:08,575 --> 00:00:09,680
+Better communication.
+
+5
+00:00:09,844 --> 00:00:11,055
+More time for children.
+
+6
+00:00:11,331 --> 00:00:14,688
+Kita teams spend hours on paperwork:
+letters, minutes, checklists,
+
+7
+00:00:14,728 --> 00:00:16,780
+and the same questions again and again.
+
+8
+00:00:16,985 --> 00:00:19,985
+Every hour at the desk is an hour
+away from the children.
+
+9
+00:00:20,027 --> 00:00:23,376
+OpenKita AI is not another Kita
+management system.
+
+10
+00:00:23,626 --> 00:00:26,816
+It is an assistant that eases
+existing administration,
+
+11
+00:00:26,816 --> 00:00:30,892
+designed to integrate with open-source
+Kita software such as KitaLux.
+
+12
+00:00:31,291 --> 00:00:32,862
+Three capabilities are planned.
+
+13
+00:00:32,902 --> 00:00:38,049
+A Parent Communication Assistant drafts newsletters
+and invitations in German and English,
+
+14
+00:00:38,049 --> 00:00:41,538
+with experimental Turkish and Arabic
+that need native review.
+
+15
+00:00:41,788 --> 00:00:45,367
+An Administration Assistant turns notes
+into minutes and checklists.
+
+16
+00:00:45,532 --> 00:00:48,900
+A Knowledge Assistant answers from your
+documents, with sources.
+
+17
+00:00:48,976 --> 00:00:51,919
+Here is a mock-up of the planned
+flow, with fictional data.
+
+18
+00:00:51,959 --> 00:00:54,806
+The manager asks for a friendly
+summer party announcement,
+
+19
+00:00:54,846 --> 00:00:56,951
+with a request for buffet contributions.
+
+20
+00:00:57,087 --> 00:00:59,982
+The assistant drafts a warm German
+text, ready to edit.
+
+21
+00:01:00,255 --> 00:01:02,787
+Then English, Turkish and
+Arabic versions appear.
+
+22
+00:01:02,827 --> 00:01:07,901
+Turkish and Arabic are experimental: the default local
+model does not officially support them,
+
+23
+00:01:07,901 --> 00:01:09,467
+so native review is required.
+
+24
+00:01:09,717 --> 00:01:14,611
+Every draft is marked as AI-generated, and nothing
+is sent until a person approves it.
+
+25
+00:01:15,011 --> 00:01:20,202
+Version 0.1 is designed to be local-only:
+external AI is disabled and fails closed,
+
+26
+00:01:20,202 --> 00:01:25,081
+there are no child profiles, and a person
+approves anything before it is sent.
+
+27
+00:01:25,331 --> 00:01:29,846
+Planned for version 0.3: audit logs, and a
+Privacy Gateway that detects,
+
+28
+00:01:29,846 --> 00:01:34,988
+minimises and verifies data before anything
+reaches an optional external provider,
+
+29
+00:01:34,988 --> 00:01:36,556
+only after privacy tests.
+
+30
+00:01:36,806 --> 00:01:40,545
+This reduces risk; it does not
+guarantee GDPR compliance.
+
+31
+00:01:40,945 --> 00:01:45,871
+Everything is open source, licensed under
+Apache 2.0: code, prompts, workflows,
+
+32
+00:01:45,871 --> 00:01:48,490
+schema, API and Docker Compose deployment.
+
+33
+00:01:48,740 --> 00:01:50,037
+No proprietary edition.
+
+34
+00:01:50,287 --> 00:01:53,722
+Built with Next.js, FastAPI,
+PostgreSQL and Ollama.
+
+35
+00:01:53,972 --> 00:01:55,972
+Model weights have their own licences.
+
+36
+00:01:56,095 --> 00:01:57,200
+The software is free.
+
+37
+00:01:57,321 --> 00:02:01,785
+Revenue comes from services: installation,
+configuration, integration, training,
+
+38
+00:02:01,785 --> 00:02:03,012
+support and migration.
+
+39
+00:02:03,262 --> 00:02:07,604
+A test installation for one to three thousand
+euros is a hypothesis to validate.
+
+40
+00:02:08,004 --> 00:02:13,036
+One idea is the OpenKita Box, a private AI
+appliance installed on premises.
+
+41
+00:02:13,286 --> 00:02:18,043
+Prices are illustrative hypotheses, hardware
+obligations still need investigation,
+
+42
+00:02:18,043 --> 00:02:20,189
+and we would sell to providers first.
+
+43
+00:02:20,589 --> 00:02:23,179
+Now the honest part: this is
+not yet validated.
+
+44
+00:02:23,429 --> 00:02:26,685
+Version 0.1 is in progress: the
+foundation is built,
+
+45
+00:02:26,685 --> 00:02:29,127
+and the AI features are in development.
+
+46
+00:02:29,377 --> 00:02:33,573
+First we will interview five Kita managers,
+two providers and two educators,
+
+47
+00:02:33,573 --> 00:02:35,009
+and ask what builds trust.
+
+48
+00:02:35,409 --> 00:02:39,805
+The roadmap: version 0.1 is in progress,
+then the Knowledge Assistant,
+
+49
+00:02:39,805 --> 00:02:44,076
+production readiness with the planned
+Privacy Gateway, integrations,
+
+50
+00:02:44,076 --> 00:02:46,149
+and a multi-facility 1.0 release.
+
+51
+00:02:46,399 --> 00:02:48,944
+Later: Austria, Switzerland
+and wider Europe.
+
+52
+00:02:49,344 --> 00:02:51,644
+Our ask: Kita managers and Träger,
+
+53
+00:02:51,644 --> 00:02:55,906
+join a thirty-minute interview to help
+us validate OpenKita AI.
+
+54
+00:02:56,156 --> 00:02:59,314
+The code is on GitHub; the link and a
+QR code are on screen.
+
+55
+00:02:59,509 --> 00:03:00,319
+Less paperwork.
+
+56
+00:03:00,569 --> 00:03:01,674
+Better communication.
+
+57
+00:03:01,837 --> 00:03:03,048
+More time for children.

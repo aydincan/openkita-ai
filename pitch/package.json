@@ -1,0 +1,18 @@
+{
+  "name": "openkita-ai-pitch",
+  "private": true,
+  "type": "module",
+  "description": "Build scripts for the OpenKita AI pitch deck (HTML -> PNG + PPTX).",
+  "scripts": {
+    "build:slides": "node src/build.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "^1.65.0",
+    "pptxgenjs": "^4.0.1",
+    "qrcode": "^1.5.4",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-icons": "^5.7.0",
+    "sharp": "^0.35.5"
+  }
+}

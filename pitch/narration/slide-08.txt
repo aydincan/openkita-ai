@@ -1,0 +1,1 @@
+Everything is open source, licensed under Apache 2.0: code, prompts, workflows, schema, API and Docker Compose deployment. No proprietary edition. Built with Next.js, FastAPI, PostgreSQL and Ollama. Model weights have their own licences.

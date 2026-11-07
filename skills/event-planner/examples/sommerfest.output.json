@@ -1,0 +1,65 @@
+{
+  "language": "de",
+  "event": {
+    "event_type": "summer_party",
+    "title": "Sommerfest der Kita Sonnenblume",
+    "date": "20. Juni",
+    "date_iso": null,
+    "start_time": "14:00",
+    "end_time": "17:00",
+    "location": "Garten der Kita",
+    "audience": "Kinder und ihre Familien, einschließlich Geschwister und Großeltern",
+    "description": "Sommerfest mit Mitbring-Buffet (Getränke stellt die Kita), Spielen (Sackhüpfen, Kinderschminken, Dosenwerfen) und einem Liedauftritt der Vorschulkinder."
+  },
+  "checklist": [
+    { "timeframe": "4 Wochen vorher", "task": "Programm und Zuständigkeiten im Team festlegen", "responsible": "Leitung", "source": "suggestion", "done": false },
+    { "timeframe": "4 Wochen vorher", "task": "Ausweichort bei Regen klären", "responsible": "Leitung", "source": "suggestion", "done": false },
+    { "timeframe": "4 Wochen vorher", "task": "Spiele organisieren (Sackhüpfen, Kinderschminken, Dosenwerfen)", "responsible": "Herr Exempel", "source": "input", "done": false },
+    { "timeframe": "2 Wochen vorher", "task": "Einladung an die Eltern nach Freigabe verschicken", "responsible": "Leitung", "source": "suggestion", "done": false },
+    { "timeframe": "2 Wochen vorher", "task": "Lied mit den Vorschulkindern einüben", "responsible": "Gruppenteam Vorschule", "source": "input", "done": false },
+    { "timeframe": "2 Wochen vorher", "task": "Material für Spiele und Kinderschminken prüfen und ergänzen", "responsible": "Herr Exempel", "source": "suggestion", "done": false },
+    { "timeframe": "2 Wochen vorher", "task": "Einwilligungen zur Fotoerlaubnis prüfen, falls fotografiert wird", "responsible": "Leitung", "source": "suggestion", "done": false },
+    { "timeframe": "1 Woche vorher", "task": "Rückmeldungen sammeln: Personenzahl und Buffetbeiträge", "responsible": "Gruppenteams", "source": "input", "done": false },
+    { "timeframe": "1 Woche vorher", "task": "Getränke, Becher und Geschirr planen und besorgen", "responsible": "[Zuständig Getränke]", "source": "input", "done": false },
+    { "timeframe": "Am Vortag", "task": "Tische, Bänke und Spielstationen im Garten vorbereiten", "responsible": "Team", "source": "suggestion", "done": false },
+    { "timeframe": "Am Veranstaltungstag", "task": "Buffet-Tisch mit Platz für die beschrifteten Gerichte bereitstellen", "responsible": "[Zuständig Buffet]", "source": "suggestion", "done": false },
+    { "timeframe": "Am Veranstaltungstag", "task": "Erste-Hilfe-Material bereitlegen", "responsible": "[Zuständig Erste Hilfe]", "source": "suggestion", "done": false },
+    { "timeframe": "Danach", "task": "Abbau und Aufräumen", "responsible": "Team und helfende Eltern", "source": "suggestion", "done": false },
+    { "timeframe": "Danach", "task": "Kurze Auswertung in der nächsten Teamsitzung", "responsible": "Leitung", "source": "suggestion", "done": false }
+  ],
+  "invitation": {
+    "subject": "Einladung zu unserem Sommerfest am 20. Juni",
+    "salutation": "Liebe Eltern,",
+    "body_paragraphs": [
+      "wir laden Sie und Ihre Familie herzlich zu unserem Sommerfest ein. Geschwister und Großeltern sind ebenfalls herzlich willkommen.",
+      "Wann: 20. Juni, 14:00–17:00 Uhr\nWo: Garten der Kita",
+      "Auf die Kinder warten Sackhüpfen, Kinderschminken und Dosenwerfen. Außerdem singen unsere Vorschulkinder ein Lied für Sie.",
+      "Für unser Mitbring-Buffet freuen wir uns über einen Salat, einen Kuchen oder Fingerfood. Bitte beschriften Sie Ihr Gericht mit den Zutaten. Für Getränke sorgen wir.",
+      "Bei Regen: [Ausweichort bei Regen]"
+    ],
+    "call_to_action": "Bitte geben Sie uns bis zum [Rückmeldung bis] Bescheid, mit wie vielen Personen Sie kommen und was Sie für das Buffet mitbringen.",
+    "closing": "Wir freuen uns auf Sie!",
+    "greeting": "Herzliche Grüße",
+    "signature": "Ihr Team der Kita Sonnenblume"
+  },
+  "calendar_entry_draft": {
+    "title": "Sommerfest",
+    "date": "20. Juni",
+    "date_iso": null,
+    "start_time": "14:00",
+    "end_time": "17:00",
+    "location": "Garten der Kita",
+    "note": "Mitbring-Buffet, Getränke stellt die Kita. Spiele: Herr Exempel. Auftritt der Vorschulkinder.",
+    "status": "draft_requires_approval"
+  },
+  "missing_information": [
+    { "placeholder": "[Rückmeldung bis]", "question": "Bis wann sollen sich die Eltern zurückmelden?" },
+    { "placeholder": "[Ausweichort bei Regen]", "question": "Wo findet das Fest bei Regen statt – oder wird es verschoben?" },
+    { "placeholder": "[Zuständig Getränke]", "question": "Wer kümmert sich um Getränke, Becher und Geschirr?" },
+    { "placeholder": "[Zuständig Buffet]", "question": "Wer stellt den Buffet-Tisch bereit?" },
+    { "placeholder": "[Zuständig Erste Hilfe]", "question": "Wer legt das Erste-Hilfe-Material bereit?" }
+  ],
+  "warnings": [
+    "Das Jahr fehlt; date_iso ist daher leer. Bitte vor der Freigabe des Kalendereintrags ergänzen."
+  ]
+}

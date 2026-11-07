@@ -1,0 +1,28 @@
+{
+  "language": "de",
+  "message_type": "invitation",
+  "tone": "friendly",
+  "subject": "Einladung zu unserem Sommerfest am 20. Juni",
+  "salutation": "Liebe Eltern,",
+  "body_paragraphs": [
+    "wir laden Sie und Ihre Familie herzlich zu unserem Sommerfest ein. Es findet am 20. Juni von 14:00 bis 17:00 Uhr im Garten der Kita statt. Geschwister und Großeltern sind ebenfalls herzlich willkommen.",
+    "Auf die Kinder warten verschiedene Spiele, und unsere Vorschulkinder haben einen kleinen Auftritt vorbereitet.",
+    "Für unser gemeinsames Buffet bitten wir jede Familie, etwas mitzubringen – zum Beispiel einen Salat, einen Kuchen oder Fingerfood. Bitte beschriften Sie Ihr Gericht mit den Zutaten."
+  ],
+  "call_to_action": "Bitte geben Sie uns bis zum [Rückmeldung bis] Bescheid, mit wie vielen Personen Sie kommen und was Sie für das Buffet mitbringen.",
+  "closing": "Wir freuen uns auf einen schönen Nachmittag mit Ihnen!",
+  "greeting": "Herzliche Grüße",
+  "signature": "Ihr Team der Kita Sonnenblume",
+  "key_facts": [
+    { "label": "Anlass", "value": "Sommerfest" },
+    { "label": "Datum", "value": "20. Juni" },
+    { "label": "Uhrzeit", "value": "14:00–17:00 Uhr" },
+    { "label": "Ort", "value": "Garten der Kita" },
+    { "label": "Mitbringen", "value": "Ein Gericht für das Buffet (Salat, Kuchen oder Fingerfood), mit Zutaten beschriftet" },
+    { "label": "Rückmeldung", "value": "Bis [Rückmeldung bis]: Personenzahl und Buffetbeitrag" }
+  ],
+  "missing_information": [
+    { "placeholder": "[Rückmeldung bis]", "question": "Bis wann sollen die Eltern sich zurückmelden?" }
+  ],
+  "warnings": []
+}

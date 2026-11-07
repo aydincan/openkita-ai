@@ -1,0 +1,95 @@
+# OpenKita AI - self-hosted stack.
+#   docker compose up --build                      # db + backend + frontend
+#   docker compose --profile ollama up --build     # additionally runs a local Ollama
+# All ports are bound to 127.0.0.1; put a reverse proxy with TLS in front for real use.
+# Requires a .env file (cp .env.example .env) with a strong POSTGRES_PASSWORD.
+
+name: openkita
+
+services:
+  db:
+    image: pgvector/pgvector:0.8.7-pg16@sha256:0dd3149a06e4579a0d70d8fef9945636cd514005e7237deb27f9b67886f8dc4f
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-openkita}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env (copy .env.example) - never use a placeholder}
+      POSTGRES_DB: ${POSTGRES_DB:-openkita}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./deployment/docker/postgres-init.sql:/docker-entrypoint-initdb.d/01-extensions.sql:ro
+      - ./deployment/docker/postgres-entrypoint.sh:/opt/openkita/postgres-entrypoint.sh:ro
+    # Refuse placeholder passwords before PostgreSQL initialises. Overriding entrypoint
+    # drops the image CMD, so the official entrypoint must be given "postgres" explicitly.
+    entrypoint: ["/bin/sh", "/opt/openkita/postgres-entrypoint.sh"]
+    command: ["postgres"]
+    # The database port is NOT published by default (avoids clashes with a local PostgreSQL).
+    # For local development use deployment/docker/compose.dev.yml (see docs/installation.md).
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # APP_ENV=production disables the interactive API docs. Use "development" locally.
+      APP_ENV: ${APP_ENV:-production}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      # The connection URL is assembled by the backend (URL-encoding safe for any password).
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER:-openkita}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-openkita}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+      HEALTH_CHECK_TIMEOUT_SECONDS: ${HEALTH_CHECK_TIMEOUT_SECONDS:-3}
+      AI_PROVIDER: ${AI_PROVIDER:-ollama}
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-llama3.1:8b}
+      OLLAMA_GENERATE_TIMEOUT_SECONDS: ${OLLAMA_GENERATE_TIMEOUT_SECONDS:-120}
+      EXTERNAL_AI_ENABLED: ${EXTERNAL_AI_ENABLED:-false}
+      SKILLS_DIR: /srv/skills
+      SESSION_TTL_HOURS: ${SESSION_TTL_HOURS:-12}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-false}
+    volumes:
+      - ./skills:/srv/skills:ro
+    ports:
+      - "127.0.0.1:${BACKEND_PORT:-8000}:8000"
+    # Healthcheck (liveness only) is defined in backend/Dockerfile.
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      # service_started (not healthy): the UI must come up even while the backend or database
+      # is down, so the status panel can show the outage instead of the site being absent.
+      backend:
+        condition: service_started
+    environment:
+      BACKEND_INTERNAL_URL: http://backend:8000
+      BACKEND_TIMEOUT_MS: ${BACKEND_TIMEOUT_MS:-8000}
+      BACKEND_GENERATE_TIMEOUT_MS: ${BACKEND_GENERATE_TIMEOUT_MS:-130000}
+    ports:
+      - "127.0.0.1:${FRONTEND_PORT:-3000}:3000"
+    # Healthcheck is defined in frontend/Dockerfile.
+
+  # Optional local AI inference. Not started unless the "ollama" profile is enabled.
+  # If AI_PROVIDER=ollama but this profile is off, /health reports the AI as unreachable
+  # (non-fatal). Pull a model once:  docker compose exec ollama ollama pull llama3.1:8b
+  ollama:
+    image: ollama/ollama:0.40.15@sha256:0e59999e0e8f9fd4e704bd788a89b7e4cad399367fb1365f8c102ac662288761
+    profiles: ["ollama"]
+    restart: unless-stopped
+    volumes:
+      - ollama-data:/root/.ollama
+    ports:
+      - "127.0.0.1:${OLLAMA_PORT:-11434}:11434"
+
+volumes:
+  db-data:
+  ollama-data:
