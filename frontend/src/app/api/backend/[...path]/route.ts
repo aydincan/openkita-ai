@@ -1,12 +1,26 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { BACKEND_GENERATE_TIMEOUT_MS, BACKEND_INTERNAL_URL, BACKEND_TIMEOUT_MS } from "@/lib/config";
-import { backendTimeoutMs, safeBackendPath } from "@/lib/backendProxy";
+import { backendTimeoutMs, safeBackendPath, stateChangingOriginAllowed } from "@/lib/backendProxy";
 
 export const dynamic = "force-dynamic";
 
 type Context = { params: Promise<{ path: string[] }> };
 
 async function proxy(request: NextRequest, context: Context) {
+  if (
+    !stateChangingOriginAllowed(
+      request.method,
+      request.headers.get("origin"),
+      request.headers.get("host") ?? request.nextUrl.host,
+      process.env.PUBLIC_ORIGIN,
+    )
+  ) {
+    return NextResponse.json(
+      { error: "cross_site_request" },
+      { status: 403, headers: { "cache-control": "no-store" } },
+    );
+  }
+
   const parts = (await context.params).path;
   const path = safeBackendPath(parts);
   if (path === null || !["GET", "POST", "PATCH"].includes(request.method)) {
@@ -59,3 +73,5 @@ async function proxy(request: NextRequest, context: Context) {
 export const GET = proxy;
 export const POST = proxy;
 export const PATCH = proxy;
+export const PUT = proxy;
+export const DELETE = proxy;

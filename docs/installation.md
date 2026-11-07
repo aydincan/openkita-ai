@@ -49,10 +49,14 @@ If you already run Ollama on the host, set `OLLAMA_BASE_URL` for the backend acc
 ### Production notes
 
 All ports bind to `127.0.0.1`. Put a reverse proxy with TLS (Caddy, nginx, Traefik) in front,
-and only expose the frontend. Set `SESSION_COOKIE_SECURE=true` once the site is served over
-HTTPS. The session cookie is `HttpOnly` and `SameSite=Lax`; it is not marked `Secure` on the
-localhost HTTP setup. **Do not expose this version to the internet** without TLS and a review
-of that cookie flag.
+and only expose the frontend. A public HTTPS deployment must set `SESSION_COOKIE_SECURE=true`.
+Leave it `false` for localhost HTTP: the session cookie is `HttpOnly` and `SameSite=Lax`, and
+it is not marked `Secure` there. **Do not expose this version to the internet** without TLS
+and `SESSION_COOKIE_SECURE=true`.
+
+The frontend proxy rejects state-changing requests whose `Origin` host does not match the
+request `Host`. When a reverse proxy presents a different host, set `PUBLIC_ORIGIN` to the
+public origin, for example `https://kita.example`.
 
 ## 2. Local development
 

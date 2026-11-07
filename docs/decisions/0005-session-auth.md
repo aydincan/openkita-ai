@@ -24,12 +24,15 @@ page scripts can read. A CSRF token and the Privacy Gateway are later work (ADR 
   `404`, the same as a missing draft.
 - The facility and the first administrator are created by `POST /setup`. A second setup
   returns `409 setup_closed`. There is no default account and no default password.
-- SameSite=Lax is the v0.1 control for cookie-authenticated requests. A separate CSRF token
-  is deferred until a browser is exposed beyond a trusted origin.
+- SameSite=Lax does not stop a foreign site from POSTing to login. The frontend proxy rejects
+  `POST`, `PATCH`, `PUT` and `DELETE` unless `Origin` is present and its host matches the
+  request `Host`, or the origin equals `PUBLIC_ORIGIN`. Draft export is `POST` with
+  `confirm=true`. A separate CSRF token remains later work.
 
 ## Consequences
 
 + A script on the page cannot read the session token. Localhost HTTP works without `Secure`.
-− A foreign site can still attempt some cross-site requests that SameSite=Lax allows.
-  Set `SESSION_COOKIE_SECURE=true` behind TLS, and add a CSRF token, before exposing the UI
-  beyond localhost.
+  A cross-site state-changing request through the frontend proxy is rejected.
+− SameSite=Lax still sends the cookie on a cross-site top-level GET. A client that reaches
+  the backend directly, past the frontend proxy, is outside the Origin check. A public HTTPS
+  deployment must set `SESSION_COOKIE_SECURE=true`.

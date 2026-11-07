@@ -123,14 +123,20 @@ async def test_draft_is_rendered_approved_without_claiming_send_and_exported(
     assert "has been sent" not in approved.text.lower()
     assert "sent" not in _keys(approved.json())
 
-    blocked = await client.get(f"/drafts/{body['id']}/export/pdf")
+    blocked = await client.post(f"/drafts/{body['id']}/export/pdf")
     assert blocked.status_code == 400
     assert blocked.json()["detail"] == "export_not_confirmed"
-    pdf = await client.get(f"/drafts/{body['id']}/export/pdf?confirm=true")
+    via_get = await client.get(f"/drafts/{body['id']}/export/pdf?confirm=true")
+    assert via_get.status_code == 405
+    assert not via_get.content.startswith(b"%PDF")
+    via_get_docx = await client.get(f"/drafts/{body['id']}/export/docx?confirm=true")
+    assert via_get_docx.status_code == 405
+    assert not via_get_docx.content.startswith(b"PK")
+    pdf = await client.post(f"/drafts/{body['id']}/export/pdf?confirm=true")
     assert pdf.status_code == 200
     assert pdf.headers["content-type"].startswith("application/pdf")
     assert pdf.content.startswith(b"%PDF")
-    docx = await client.get(f"/drafts/{body['id']}/export/docx?confirm=true")
+    docx = await client.post(f"/drafts/{body['id']}/export/docx?confirm=true")
     assert docx.status_code == 200
     assert docx.content.startswith(b"PK")
     text = _docx_text(docx.content)

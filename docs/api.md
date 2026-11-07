@@ -95,7 +95,7 @@ All draft routes require a session and filter on `facility_id`. Another facility
 | `GET` | `/drafts/{id}` | One draft |
 | `PATCH` | `/drafts/{id}` | Saves edited `subject` and `body`. An approved draft returns to `draft` |
 | `POST` | `/drafts/{id}/approve` | Sets `status` to `approved`. Does not send anything |
-| `GET` | `/drafts/{id}/export/pdf` and `.../docx` | File download. Requires `?confirm=true`, otherwise `400 export_not_confirmed` |
+| `POST` | `/drafts/{id}/export/pdf` and `.../docx` | File download. Requires `?confirm=true`, otherwise `400 export_not_confirmed`. `GET` does not export |
 
 Generation asks Ollama for JSON, validates it against the parent-communication schema, and
 stores the letter rendered on the server from those fields. The response is labelled
@@ -116,6 +116,9 @@ The browser calls the **frontend** origin only.
 - `/api/backend/<path>` forwards cookie, body and query for an allow-listed path
   (`setup`, `auth`, `facility`, `users`, `drafts` and the export routes). Anything else,
   including `..`, is `404 {"error":"not_found"}` and is not forwarded.
+  `POST`, `PATCH`, `PUT` and `DELETE` require an `Origin` whose host matches the request
+  `Host`, or an origin equal to `PUBLIC_ORIGIN`. A missing or other origin is
+  `403 {"error":"cross_site_request"}` and is not forwarded.
   Letter generation uses `BACKEND_GENERATE_TIMEOUT_MS` (default 130000, allowed 10000–300000).
 
 Backend JSON answers (including `503`) are passed through. Otherwise:

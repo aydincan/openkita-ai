@@ -74,6 +74,7 @@ services:
       BACKEND_INTERNAL_URL: http://backend:8000
       BACKEND_TIMEOUT_MS: ${BACKEND_TIMEOUT_MS:-8000}
       BACKEND_GENERATE_TIMEOUT_MS: ${BACKEND_GENERATE_TIMEOUT_MS:-130000}
+      PUBLIC_ORIGIN: ${PUBLIC_ORIGIN:-}
     ports:
       - "127.0.0.1:${FRONTEND_PORT:-3000}:3000"
     # Healthcheck is defined in frontend/Dockerfile.

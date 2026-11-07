@@ -9,9 +9,10 @@ describe("authRedirect", () => {
     expect(authRedirect("/setup", false)).toBeNull();
   });
 
-  it("sends a signed-in visitor away from login and setup", () => {
-    expect(authRedirect("/login", true)).toBe("/");
-    expect(authRedirect("/setup", true)).toBe("/");
+  it("keeps login and setup reachable when a cookie is already present", () => {
+    expect(authRedirect("/login", true)).toBeNull();
+    expect(authRedirect("/setup", true)).toBeNull();
     expect(authRedirect("/", true)).toBeNull();
+    expect(authRedirect("/parent-communication", true)).toBeNull();
   });
 });

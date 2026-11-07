@@ -1,13 +1,20 @@
 import { NextRequest } from "next/server";
 import { describe, expect, it, vi } from "vitest";
-import { GET, POST } from "./route";
+import { DELETE, GET, PATCH, POST, PUT } from "./route";
 
-function call(method: string, path: string, cookie?: string) {
-  const request = new NextRequest(`http://localhost:3000/api/backend/${path}`, {
-    method,
-    headers: cookie ? { cookie } : undefined,
-  });
-  return (method === "POST" ? POST : GET)(request, { params: Promise.resolve({ path: path.split("/") }) });
+const handlers = { GET, POST, PATCH, PUT, DELETE } as const;
+
+function call(
+  method: keyof typeof handlers,
+  path: string,
+  cookie?: string,
+  origin: string | null = "http://localhost:3000",
+) {
+  const headers = new Headers();
+  if (cookie) headers.set("cookie", cookie);
+  if (origin !== null && method !== "GET") headers.set("origin", origin);
+  const request = new NextRequest(`http://localhost:3000/api/backend/${path}`, { method, headers });
+  return handlers[method](request, { params: Promise.resolve({ path: path.split("/") }) });
 }
 
 describe("backend proxy", () => {
@@ -66,5 +73,38 @@ describe("backend proxy", () => {
     await call("POST", "drafts/parent-communication");
     const [, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
     expect(init.signal).toBeInstanceOf(AbortSignal);
+  });
+
+  it("rejects a cross-site state-changing request before calling the backend", async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    const response = await call("POST", "auth/login", undefined, "https://evil.example");
+    expect(response.status).toBe(403);
+    expect(await response.json()).toEqual({ error: "cross_site_request" });
+    expect(response.headers.get("cache-control")).toBe("no-store");
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("rejects a state-changing request that omits origin", async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    const response = await call("PATCH", "facility", "openkita_session=abc", null);
+    expect(response.status).toBe(403);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("allows the configured public origin when it differs from the host", async () => {
+    const previous = process.env.PUBLIC_ORIGIN;
+    process.env.PUBLIC_ORIGIN = "https://kita.example";
+    const fetchMock = vi.fn(async () => Response.json({ ok: true }));
+    vi.stubGlobal("fetch", fetchMock);
+    try {
+      const response = await call("POST", "auth/login", undefined, "https://kita.example");
+      expect(response.status).toBe(200);
+      expect(fetchMock).toHaveBeenCalledOnce();
+    } finally {
+      if (previous === undefined) delete process.env.PUBLIC_ORIGIN;
+      else process.env.PUBLIC_ORIGIN = previous;
+    }
   });
 });

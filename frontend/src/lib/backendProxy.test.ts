@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { backendTimeoutMs, safeBackendPath } from "./backendProxy";
+import { backendTimeoutMs, safeBackendPath, stateChangingOriginAllowed } from "./backendProxy";
 
 const DRAFT = "11111111-1111-4111-8111-111111111111";
 
@@ -15,6 +15,33 @@ describe("safeBackendPath", () => {
     expect(safeBackendPath(["..", "etc"])).toBeNull();
     expect(safeBackendPath(["health"])).toBeNull();
     expect(safeBackendPath(["drafts", DRAFT, "send"])).toBeNull();
+  });
+});
+
+describe("stateChangingOriginAllowed", () => {
+  it("rejects a missing or foreign origin on state-changing methods", () => {
+    expect(stateChangingOriginAllowed("POST", null, "localhost:3000", "")).toBe(false);
+    expect(stateChangingOriginAllowed("PATCH", null, "localhost:3000", undefined)).toBe(false);
+    expect(stateChangingOriginAllowed("PUT", "null", "localhost:3000", "")).toBe(false);
+    expect(stateChangingOriginAllowed("DELETE", "https://evil.example", "localhost:3000", "")).toBe(false);
+    expect(stateChangingOriginAllowed("POST", "http://localhost:3000.evil.example", "localhost:3000", "")).toBe(
+      false,
+    );
+  });
+
+  it("allows an origin whose host matches, or the configured public origin", () => {
+    expect(stateChangingOriginAllowed("POST", "http://localhost:3000", "localhost:3000", "")).toBe(true);
+    expect(stateChangingOriginAllowed("POST", "http://localhost:3000", "LocalHost:3000", "")).toBe(true);
+    expect(
+      stateChangingOriginAllowed("DELETE", "https://kita.example", "localhost:3000", "https://kita.example"),
+    ).toBe(true);
+    expect(
+      stateChangingOriginAllowed("POST", "http://kita.example", "localhost:3000", "https://kita.example"),
+    ).toBe(false);
+  });
+
+  it("does not require an origin for safe methods", () => {
+    expect(stateChangingOriginAllowed("GET", null, "localhost:3000", "")).toBe(true);
   });
 });
 

@@ -174,7 +174,9 @@ export function LetterStudio() {
       setError(m.parent.exportNeedsConfirm);
       return;
     }
-    const response = await fetch(`/api/backend/drafts/${draft.id}/export/${kind}?confirm=true`);
+    const response = await fetch(`/api/backend/drafts/${draft.id}/export/${kind}?confirm=true`, {
+      method: "POST",
+    });
     if (!response.ok) {
       setError(errorText(await readErrorCode(response), m));
       return;

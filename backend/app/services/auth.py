@@ -3,7 +3,7 @@
 from datetime import UTC, datetime, timedelta
 from uuid import UUID
 
-from sqlalchemy import delete, select
+from sqlalchemy import Select, delete, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -215,19 +215,30 @@ async def deactivate_user(
     return user
 
 
+def deployment_state_lock() -> Select[DeploymentState]:
+    """Lock the singleton setup row until this transaction ends.
+
+    PostgreSQL waits on ``FOR UPDATE``, so a second setup cannot insert another
+    administrator before the first commits. SQLite drops ``FOR UPDATE``; unit tests
+    only prove that setup runs this query.
+    """
+    return select(DeploymentState).where(DeploymentState.id == 1).with_for_update()
+
+
 async def _lock_state(session: AsyncSession) -> DeploymentState:
-    state = await session.get(DeploymentState, 1)
-    if state is None:
-        state = DeploymentState(id=1, setup_completed=False)
-        session.add(state)
-        try:
-            await session.flush()
-        except IntegrityError:
-            await session.rollback()
-            existing = await session.get(DeploymentState, 1)
-            if existing is None:
-                raise AppError("setup_closed", 409) from None
-            return existing
+    state = await session.scalar(deployment_state_lock())
+    if state is not None:
+        return state
+    state = DeploymentState(id=1, setup_completed=False)
+    session.add(state)
+    try:
+        await session.flush()
+    except IntegrityError:
+        await session.rollback()
+        existing = await session.scalar(deployment_state_lock())
+        if existing is None:
+            raise AppError("setup_closed", 409) from None
+        return existing
     return state
 
 

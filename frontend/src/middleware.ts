@@ -3,6 +3,7 @@ import { authRedirect } from "@/lib/authGate";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  // Presence only. Login and setup stay open when the cookie is stale (authRedirect).
   const hasSession = request.cookies.has("openkita_session");
   const target = authRedirect(pathname, hasSession);
   if (target) {

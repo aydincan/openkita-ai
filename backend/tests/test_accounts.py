@@ -1,12 +1,15 @@
+import asyncio
 from typing import Any, cast
 from uuid import UUID
 
+import pytest
 from httpx import AsyncClient
-from sqlalchemy import select
+from sqlalchemy import Select, select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
-from app.models import Draft, Facility, User
+from app.models import DeploymentState, Draft, Facility, User
 from app.security.passwords import hash_password
+from app.services import auth as auth_service
 
 GOOD_PASSWORD = "Beispiel-Passwort-12"
 EDUCATOR_PASSWORD = "Fachkraft-Beispiel-12"
@@ -202,3 +205,44 @@ async def _other_facility_draft(factory: async_sessionmaker[AsyncSession]) -> UU
         stored = await session.scalar(select(Draft).where(Draft.facility_id == facility.id))
         assert stored is not None
         return stored.id
+
+
+async def test_overlapping_setup_uses_the_deployment_state_lock(
+    api: Any,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Overlapping setups must take the deployment_state row lock.
+
+    The migration inserts that row before anyone calls setup. This test does the
+    same, then starts two setups together. SQLite drops FOR UPDATE, so this does
+    not prove the second transaction waits. It proves both attempts run the
+    locking SELECT, whose FOR UPDATE clause PostgreSQL keeps.
+    """
+    calls: list[Select[DeploymentState]] = []
+    real = auth_service.deployment_state_lock
+
+    def wrapped() -> Select[DeploymentState]:
+        statement = real()
+        calls.append(statement)
+        return statement
+
+    monkeypatch.setattr(auth_service, "deployment_state_lock", wrapped)
+    client, factory, _app = api
+    async with factory() as session:
+        session.add(DeploymentState(id=1, setup_completed=False))
+        await session.commit()
+
+    async def post(email: str) -> tuple[int, str]:
+        response = await client.post("/setup", json=_setup_body(email=email))
+        return response.status_code, response.text
+
+    first, second = await asyncio.gather(
+        post("leitung@kita-sonnenblume.example"),
+        post("zweite@kita-sonnenblume.example"),
+    )
+    assert len(calls) >= 2
+    assert calls[0]._for_update_arg is not None
+    assert [str(clause) for clause in calls[0].get_final_froms()] == ["deployment_state"]
+    assert first[0] in (201, 409), first[1]
+    assert second[0] in (201, 409), second[1]
+    assert 201 in (first[0], second[0])

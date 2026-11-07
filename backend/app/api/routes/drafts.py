@@ -106,7 +106,7 @@ async def approve(draft_id: UUID, user: CurrentUserDep, session: DbSessionDep) -
     return draft_response(draft, name)
 
 
-@router.get("/drafts/{draft_id}/export/pdf")
+@router.post("/drafts/{draft_id}/export/pdf")
 async def export_pdf(
     draft_id: UUID,
     user: CurrentUserDep,
@@ -121,7 +121,7 @@ async def export_pdf(
     )
 
 
-@router.get("/drafts/{draft_id}/export/docx")
+@router.post("/drafts/{draft_id}/export/docx")
 async def export_docx(
     draft_id: UUID,
     user: CurrentUserDep,
