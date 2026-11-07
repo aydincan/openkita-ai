@@ -78,6 +78,7 @@ npm install
 
 # deck: HTML -> slides/png/*.png and slides/openkita-ai-pitch.pptx
 node src/build.mjs                      # CHROME_PATH=/path/to/chrome node src/build.mjs
+python src/make_pdf.py                  # slides/png/slide-*.png -> openkita-ai-pitch.pdf (16:9, one slide per page)
 
 # voice-over, narration.md, video
 python src/tts.py --voice af_heart --speed 1.2 --gap 0.25   # -> audio/*.flac (~1 min on Apple Silicon)
