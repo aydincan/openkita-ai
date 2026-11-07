@@ -10,4 +10,6 @@ export type SessionUser = {
 export type Facility = {
   id: string;
   name: string;
+  exposure_region_code: string | null;
+  exposure_region_label: string | null;
 };

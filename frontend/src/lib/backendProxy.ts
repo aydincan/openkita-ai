@@ -1,7 +1,7 @@
 const UUID = "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}";
 
 const ALLOWED = new RegExp(
-  `^(setup/status|setup|auth/(login|logout|me)|facility|users|users/${UUID}/deactivate|drafts|drafts/parent-communication|drafts/${UUID}(/approve|/export/(pdf|docx))?)$`,
+  `^(setup/status|setup|auth/(login|logout|me)|facility|facility/region|users|users/${UUID}/deactivate|drafts|drafts/parent-communication|drafts/${UUID}(/approve|/export/(pdf|docx))?|exposure|exposure/regions)$`,
 );
 
 /** Join path segments and allow only known backend routes. */

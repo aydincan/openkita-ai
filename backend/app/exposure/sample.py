@@ -18,8 +18,18 @@ SAMPLE_LABEL_DE = "Beispieldaten, nicht live"
 SAMPLE_LABEL_EN = "Sample data, not live"
 
 _TOPICS: tuple[tuple[TopicName, SourceId, str, str], ...] = (
-    ("heat", "dwd_heat", "https://opendata.dwd.de/climate_environment/health/alerts/gt.json", "CC BY 4.0"),
-    ("uv", "dwd_uv", "https://opendata.dwd.de/climate_environment/health/alerts/uvi.json", "CC BY 4.0"),
+    (
+        "heat",
+        "dwd_heat",
+        "https://opendata.dwd.de/climate_environment/health/alerts/gt.json",
+        "CC BY 4.0",
+    ),
+    (
+        "uv",
+        "dwd_uv",
+        "https://opendata.dwd.de/climate_environment/health/alerts/uvi.json",
+        "CC BY 4.0",
+    ),
     (
         "pollen",
         "dwd_pollen",

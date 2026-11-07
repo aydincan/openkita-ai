@@ -23,7 +23,14 @@ from app.exposure.parse import (
 )
 from app.exposure.regions import REGIONS, Region, region_label
 from app.exposure.sample import synthetic_report, synthetic_topic
-from app.schemas.exposure import ExposureFact, ExposureReport, ExposureTopic, Reason, SourceId, TopicName
+from app.schemas.exposure import (
+    ExposureFact,
+    ExposureReport,
+    ExposureTopic,
+    Reason,
+    SourceId,
+    TopicName,
+)
 
 logger = logging.getLogger("openkita.exposure")
 
@@ -178,11 +185,17 @@ async def _pollen_topic(
             partregion_id=region.pollen_partregion_id,
         )
     except SourceUnreachable:
-        return synthetic_topic("pollen", "dwd_pollen", dataset_url, "CC BY 4.0", "source_unreachable")
+        return synthetic_topic(
+            "pollen", "dwd_pollen", dataset_url, "CC BY 4.0", "source_unreachable"
+        )
     except PlaceMissing:
-        return synthetic_topic("pollen", "dwd_pollen", dataset_url, "CC BY 4.0", "no_published_place")
+        return synthetic_topic(
+            "pollen", "dwd_pollen", dataset_url, "CC BY 4.0", "no_published_place"
+        )
     except DocumentError:
-        return synthetic_topic("pollen", "dwd_pollen", dataset_url, "CC BY 4.0", "unexpected_document")
+        return synthetic_topic(
+            "pollen", "dwd_pollen", dataset_url, "CC BY 4.0", "unexpected_document"
+        )
     return _live_topic(
         topic="pollen",
         source_id="dwd_pollen",
@@ -329,4 +342,3 @@ async def load_exposure(
         region_label=region.label,
         topics=[heat, uv, pollen, air],
     )
-

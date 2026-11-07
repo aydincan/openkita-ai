@@ -10,6 +10,9 @@ describe("ModuleCards", () => {
     const parent = screen.getByRole("link", { name: "Elternkommunikation" });
     expect(parent).toHaveAttribute("href", "/parent-communication");
     expect(parent.closest("li")).not.toHaveTextContent("In einer späteren Version");
+    const exposure = screen.getByRole("link", { name: "Belastung" });
+    expect(exposure).toHaveAttribute("href", "/exposure");
+    expect(exposure.closest("li")).not.toHaveTextContent("In einer späteren Version");
     expect(screen.getByRole("link", { name: "Verwaltung" }).closest("li")).toHaveTextContent(
       "In einer späteren Version",
     );

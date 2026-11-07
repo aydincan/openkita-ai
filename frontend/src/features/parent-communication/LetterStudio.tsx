@@ -22,11 +22,15 @@ const TYPES = [
 
 export function LetterStudio() {
   const { messages: m } = useI18n();
-  const draftId = useSearchParams().get("draft");
-  const [facts, setFacts] = useState("");
+  const search = useSearchParams();
+  const draftId = search.get("draft");
+  const prefill = search.get("facts");
+  const [facts, setFacts] = useState(() => (draftId ? "" : (prefill ?? "").slice(0, 4000)));
   const [tone, setTone] = useState<(typeof TONES)[number]>("friendly");
   const [language, setLanguage] = useState<LetterLanguage>("de");
-  const [messageType, setMessageType] = useState<(typeof TYPES)[number]>("announcement");
+  const [messageType, setMessageType] = useState<(typeof TYPES)[number]>(
+    draftId || !prefill ? "announcement" : "information",
+  );
   const [kitaName, setKitaName] = useState("");
   const [sender, setSender] = useState("");
   const [draft, setDraft] = useState<Draft | null>(null);

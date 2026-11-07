@@ -25,7 +25,7 @@ describe("AppShell", () => {
     expect(screen.getByRole("link", { name: "Zum Inhalt springen" })).toHaveAttribute("href", "#main-content");
     expect(screen.getByRole("main")).toHaveTextContent("content");
     const nav = screen.getByRole("navigation", { name: "Hauptnavigation" });
-    expect(nav.querySelectorAll("a")).toHaveLength(7);
+    expect(nav.querySelectorAll("a")).toHaveLength(8);
     expect(screen.getByRole("link", { name: "Dashboard" })).toHaveAttribute("aria-current", "page");
   });
 

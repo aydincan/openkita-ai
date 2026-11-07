@@ -14,6 +14,7 @@ describe("navigation", () => {
   it("contains the planned entries in order", () => {
     expect(NAV_ITEMS.map((i) => i.key)).toEqual([
       "dashboard",
+      "exposure",
       "parentCommunication",
       "administration",
       "knowledge",

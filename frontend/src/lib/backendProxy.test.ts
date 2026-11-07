@@ -9,6 +9,9 @@ describe("safeBackendPath", () => {
     expect(safeBackendPath(["auth", "login"])).toBe("auth/login");
     expect(safeBackendPath(["drafts", "parent-communication"])).toBe("drafts/parent-communication");
     expect(safeBackendPath(["drafts", DRAFT, "export", "pdf"])).toBe(`drafts/${DRAFT}/export/pdf`);
+    expect(safeBackendPath(["exposure"])).toBe("exposure");
+    expect(safeBackendPath(["exposure", "regions"])).toBe("exposure/regions");
+    expect(safeBackendPath(["facility", "region"])).toBe("facility/region");
   });
 
   it("rejects traversal and unknown routes", () => {

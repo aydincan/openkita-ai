@@ -10,6 +10,7 @@ import type { Draft } from "@/types/draft";
 import { isDraft } from "@/types/draft";
 
 const MODULES = [
+  { href: "/exposure", key: "exposure", available: true },
   { href: "/parent-communication", key: "parentCommunication", available: true },
   { href: "/administration", key: "administration", available: false },
   { href: "/knowledge", key: "knowledge", available: false },

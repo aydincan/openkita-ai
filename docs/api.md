@@ -77,6 +77,30 @@ Logout is `204` and clears the cookie. `GET /auth/me` returns the current user.
 Any signed-in user of that facility can read `{id, name}`. Only an administrator can rename it
 (`{"name": "..."}`). An educator receives `403 forbidden`.
 
+`PATCH /facility/region` with `{"region_code": "50"}` or `{"region_code": null}` sets the coarse
+public region used for the environment outlook (a DWD pollen area, not an address).
+Administrators only. An unknown code is `422 invalid_region`. The response adds
+`exposure_region_code` and `exposure_region_label`.
+
+## `GET /exposure/regions` · `GET /exposure`
+
+Any signed-in user can read the region list and the outlook. The outlook covers heat, UV,
+pollen and air for that coarse region.
+
+Each topic is `origin: "live"` or `origin: "synthetic"`. A live topic is a reading from
+Deutscher Wetterdienst (pollen `s31fg.json`, UV `uvi.json`, heat `gt.json`, CC BY 4.0) or
+Umweltbundesamt air data API v4 (`dl-de/by-2-0`). Requests send only the place that API needs
+(a published city or station code). The facility id is not sent. Documents are cached on the
+host with the source timestamp. A timestamp older than 36 hours sets `stale: true`; the live
+numbers stay.
+
+When the region is missing, the source does not answer, the document cannot be read, or that
+source has no published place for the region, that topic is a fixed sample for the fictional
+area `Beispielgebiet Nordlicht`. Synthetic topics set `sample_label_de` to
+`Beispieldaten, nicht live` and `sample_label_en` to `Sample data, not live`. A successful live
+reading is never replaced by the sample. The payload has no child, staff or illness fields.
+RKI is not called.
+
 ## `GET /users` · `POST /users` · `POST /users/{id}/deactivate`
 
 Administrator only, and only users of the caller's facility. `POST` always creates an
@@ -114,7 +138,8 @@ The browser calls the **frontend** origin only.
 
 - `GET /api/health` forwards to `GET /health` (`BACKEND_TIMEOUT_MS`, default 8000, allowed 7000–9000).
 - `/api/backend/<path>` forwards cookie, body and query for an allow-listed path
-  (`setup`, `auth`, `facility`, `users`, `drafts` and the export routes). Anything else,
+  (`setup`, `auth`, `facility`, `facility/region`, `users`, `drafts`, `exposure`,
+  `exposure/regions` and the export routes). Anything else,
   including `..`, is `404 {"error":"not_found"}` and is not forwarded.
   `POST`, `PATCH`, `PUT` and `DELETE` require an `Origin` whose host matches the request
   `Host`, or an origin equal to `PUBLIC_ORIGIN`. A missing or other origin is

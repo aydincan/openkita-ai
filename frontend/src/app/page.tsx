@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ExposureView } from "@/features/exposure/ExposureView";
 import { ModuleCards, RecentDrafts, Welcome } from "@/features/dashboard/DashboardHome";
 import { StatusPanel } from "@/features/status/StatusPanel";
 import { getI18n } from "@/lib/i18n/server";
@@ -21,6 +22,7 @@ export default async function DashboardPage() {
         <p className="mt-3 max-w-prose text-slate-800">{m.dashboard.intro}</p>
       </div>
       <StatusPanel />
+      <ExposureView variant="outlook" />
       <RecentDrafts />
       <ModuleCards messages={m} />
     </div>

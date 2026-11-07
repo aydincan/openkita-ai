@@ -4,7 +4,13 @@ from datetime import UTC, datetime
 
 from fastapi import APIRouter
 
-from app.api.deps import CurrentUserDep, DbSessionDep, ExposureCacheDep, ExposureClientDep, SettingsDep
+from app.api.deps import (
+    CurrentUserDep,
+    DbSessionDep,
+    ExposureCacheDep,
+    ExposureClientDep,
+    SettingsDep,
+)
 from app.api.errors import http_error
 from app.exposure.regions import REGIONS
 from app.schemas.exposure import ExposureRegionOption, ExposureReport
@@ -17,7 +23,9 @@ router = APIRouter(tags=["exposure"])
 
 @router.get("/exposure/regions", response_model=list[ExposureRegionOption])
 async def list_regions(_user: CurrentUserDep) -> list[ExposureRegionOption]:
-    return [ExposureRegionOption(code=region.code, label=region.label) for region in REGIONS.values()]
+    return [
+        ExposureRegionOption(code=region.code, label=region.label) for region in REGIONS.values()
+    ]
 
 
 @router.get("/exposure", response_model=ExposureReport)

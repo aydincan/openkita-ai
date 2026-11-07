@@ -35,9 +35,9 @@ check is written down, every source stays **to be verified**, and no client may 
 
 | Authority | Intended public data | Status |
 |---|---|---|
-| Deutscher Wetterdienst (DWD) | Weather warnings and forecasts relevant to outdoor time at the facility | Endpoints, dataset names, and licence: **to be verified** at the DWD open-data offering |
-| Umweltbundesamt (UBA) | Public air-quality information (for example ozone or particulate-matter notices) | API or download URLs and licence: **to be verified** at the UBA air-quality offering |
-| Robert Koch-Institut (RKI) | Public, population-level infectious-disease situation reports | Access method and licence: **to be verified** at the RKI open-data offering |
+| Deutscher Wetterdienst (DWD) | Pollen (`s31fg.json`), UV index (`uvi.json`) and thermal hazard index (`gt.json`) under [opendata.dwd.de/climate_environment/health/alerts/](https://opendata.dwd.de/climate_environment/health/alerts/). Licence checked on the DWD open-data FAQ: CC BY 4.0, attribution to Deutscher Wetterdienst. Updated once a day; this software caches for 3 hours. | Verified 2026-11-07 |
+| Umweltbundesamt (UBA) | Hourly air-quality index and the short forecast, API v4 at [luftdaten.umweltbundesamt.de/api/air-data/v4](https://luftdaten.umweltbundesamt.de/api/air-data/v4/doc). Licence in that OpenAPI document: dl-de/by-2-0. Attribution: Umweltbundesamt mit Daten der Messnetze der Länder und des Bundes. Cached for 1 hour. | Verified 2026-11-07 |
+| Robert Koch-Institut (RKI) | Public, population-level infectious-disease situation reports | Not part of the exposure view. Access method and licence remain **to be verified**. Not called. |
 
 Organisation homepages (not APIs): [dwd.de](https://www.dwd.de/),
 [umweltbundesamt.de](https://www.umweltbundesamt.de/), [rki.de](https://www.rki.de/).
@@ -59,9 +59,15 @@ never logged, and the feature stays optional. A missing key disables only that s
 - Each fact shown in the UI names the authority, the retrieval time, and that the text is a public
   report, not a Kita policy. The draft MUST NOT present the figure as medical advice or as an
   instruction the facility has already carried out.
+- If a source is unreachable, times out, or returns an unexpected document, that topic is not
+  invented as a measurement. The screen shows a fixed sample for the fictional area
+  "Beispielgebiet Nordlicht", labelled "Beispieldaten, nicht live" (English: "Sample data, not
+  live"). A successful live reading is kept. The sample is not a warning that was issued and
+  not a statement about children or staff.
 - If a source is unreachable, times out, or returns an unexpected document, the draft flow
-  continues **without** that fact and says the source was unavailable. It MUST NOT invent a
-  warning, a measurement, or a citation.
+  continues **without** treating the sample as a fact from that authority. The draft text, if
+  the user copies the note into a parent letter, repeats the sample label. It MUST NOT invent
+  a warning, a measurement, or a citation.
 - Attribution required by the verified licence is shown with the fact.
 
 ### 2.4 Product boundaries
@@ -74,8 +80,8 @@ never logged, and the feature stays optional. A missing key disables only that s
 
 ### 2.5 Not in this version of the software
 
-v0.1 does not call DWD, UBA, or RKI. There is no client, no cache table, and no environment-data
-screen.
+The exposure view (heat, UV, pollen, air) is the first slice of §2. It calls only the verified
+DWD and UBA documents above. There is still no RKI client and no illness-count table.
 
 ---
 

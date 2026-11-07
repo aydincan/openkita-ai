@@ -31,7 +31,13 @@ _CHILD_KEYS = {
 }
 
 
-def _pollen(region_id: int, partregion_id: int, *, birch_today: str, updated: str) -> dict[str, Any]:
+def _pollen(
+    region_id: int,
+    partregion_id: int,
+    *,
+    birch_today: str,
+    updated: str,
+) -> dict[str, Any]:
     pollen = {
         name: {"today": "0", "tomorrow": "0", "dayafter_to": "0"}
         for name in ("Hasel", "Erle", "Esche", "Birke", "Graeser", "Roggen", "Beifuss", "Ambrosia")
@@ -39,7 +45,12 @@ def _pollen(region_id: int, partregion_id: int, *, birch_today: str, updated: st
     pollen["Birke"] = {"today": birch_today, "tomorrow": "1", "dayafter_to": "0"}
     return {
         "last_update": updated,
-        "legend": {"id1": "0", "id1_desc": "keine Belastung", "id7": "3", "id7_desc": "hohe Belastung"},
+        "legend": {
+            "id1": "0",
+            "id1_desc": "keine Belastung",
+            "id7": "3",
+            "id7_desc": "hohe Belastung",
+        },
         "content": [
             {
                 "region_id": region_id,
@@ -94,7 +105,12 @@ def _live_documents(*, pollen_updated: str = "2026-11-07 11:00 Uhr") -> dict[str
     }
 
 
-def _client(documents: dict[str, Any] | None, calls: list[str], *, status: int = 200) -> AsyncClient:
+def _client(
+    documents: dict[str, Any] | None,
+    calls: list[str],
+    *,
+    status: int = 200,
+) -> AsyncClient:
     def handler(request: httpx.Request) -> httpx.Response:
         calls.append(str(request.url))
         if status != 200 or documents is None:
@@ -115,8 +131,7 @@ def _client(documents: dict[str, Any] | None, calls: list[str], *, status: int =
     return AsyncClient(transport=httpx.MockTransport(handler))
 
 
-async def _load(client: AsyncClient, region: str | None, documents: dict[str, Any] | None = None) -> ExposureReport:
-    del documents
+async def _load(client: AsyncClient, region: str | None) -> ExposureReport:
     return await load_exposure(
         region_code=region,
         client=client,
@@ -169,7 +184,7 @@ async def test_source_failure_uses_the_labeled_sample() -> None:
         assert topic.reason == "source_unreachable"
         assert topic.sample_label_de == SAMPLE_LABEL_DE
         assert all(not fact.code.isdigit() for fact in topic.facts)
-        assert SAMPLE_AREA == topic.place_label
+        assert topic.place_label == SAMPLE_AREA
 
 
 async def test_successful_live_reading_is_not_replaced() -> None:
@@ -225,7 +240,7 @@ async def test_fixture_forecast_mapping() -> None:
     assert by_day["tomorrow"].code == "1"
     assert by_day["day_after"].code == "0"
     assert by_day["day_after"].subject is None
-    measured = read_air_slots(document and _live_documents()["air"], forecast=False)
+    measured = read_air_slots(_live_documents()["air"], forecast=False)
     forecast = read_air_slots(_live_documents()["forecast"], forecast=True)
     _when, air_facts = parse_air(measured, forecast, today=NOW)
     assert [(fact.day, fact.code) for fact in air_facts] == [("today", "2"), ("tomorrow", "3")]

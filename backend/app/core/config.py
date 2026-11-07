@@ -132,9 +132,7 @@ class Settings(BaseSettings):
     # Public environment documents. Requests send a coarse region only.
     # DWD health alerts (pollen, UV, heat) are CC BY 4.0. UBA air data is dl-de/by-2-0.
     exposure_http_timeout_seconds: float = Field(default=5.0, gt=0, le=8)
-    dwd_health_alerts_base_url: str = (
-        "https://opendata.dwd.de/climate_environment/health/alerts"
-    )
+    dwd_health_alerts_base_url: str = "https://opendata.dwd.de/climate_environment/health/alerts"
     uba_air_base_url: str = "https://luftdaten.umweltbundesamt.de/api/air-data/v4"
 
     @field_validator("cors_origins", mode="before")

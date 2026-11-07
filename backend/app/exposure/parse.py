@@ -102,10 +102,7 @@ def parse_heat(document: dict[str, Any], city: str) -> tuple[datetime | None, li
             continue
         coded = [_heat_code(item) for item in present]
         known = [code for code in coded if code in _HEAT_RANK]
-        if known:
-            code = max(known, key=lambda item: _HEAT_RANK[item])
-        else:
-            code = coded[0]
+        code = max(known, key=lambda item: _HEAT_RANK[item]) if known else coded[0]
         facts.append(ExposureFact(day=day, code=code, subject=None))
     if not facts:
         raise DocumentError
@@ -235,7 +232,9 @@ def parse_air(
 
     def on(slots: list[tuple[datetime, int]], offset: int) -> list[tuple[datetime, int]]:
         target = day + timedelta(days=offset)
-        return [(stamp, index) for stamp, index in slots if stamp.astimezone(BERLIN).date() == target]
+        return [
+            (stamp, index) for stamp, index in slots if stamp.astimezone(BERLIN).date() == target
+        ]
 
     def latest(slots: list[tuple[datetime, int]]) -> str | None:
         usable = [(stamp, index) for stamp, index in slots if 0 <= index <= 4]

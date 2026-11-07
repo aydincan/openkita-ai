@@ -123,12 +123,14 @@ settings) as arguments, which keeps them unit-testable without a running server.
   adding one file and registering it. No dependency required.
 - **Layout**: skip-link, header with language switcher, responsive sidebar/top navigation
   (collapsible on small screens), landmark roles, visible focus rings, WCAG-AA contrast palette.
-- **Navigation**: Dashboard, Parent Communication, Users (administrators), Administration,
-  Kita Knowledge, Documents, Settings. Parent communication, users and settings are real pages.
-  Administration, knowledge and documents render `ComingSoon`. No control pretends to send a letter.
+- **Navigation**: Dashboard, Exposure (Belastung), Parent Communication, Users (administrators),
+  Administration, Kita Knowledge, Documents, Settings. Exposure, parent communication, users and
+  settings are real pages. Administration, knowledge and documents render `ComingSoon`.
+  No control pretends to send a letter.
 - **Session gate**: middleware redirects to `/login` when the session cookie is absent, and away
   from `/login` and `/setup` when it is present. The API still answers `401` for an invalid cookie.
-- **Dashboard**: welcome (display name), the health panel, recent drafts, and shortcuts.
+- **Dashboard**: welcome (display name), the health panel, an environment outlook, recent drafts,
+  and shortcuts.
 - **Status feature** (`features/status`): `useHealth` hook (fetch with abort + timeout) →
   `StatusPanel` with explicit `loading`, `error` (with retry button, which really retries) and
   `success` states, shown on the dashboard.
@@ -140,7 +142,7 @@ Alembic `0001` enables `vector`. `0002` adds:
 | Table | Role |
 |---|---|
 | `deployment_state` | Singleton (`id = 1`). `setup_completed` closes first-run setup |
-| `facilities` | One row per deployment, created by setup |
+| `facilities` | One row per deployment, created by setup. Optional `exposure_region_code` is a coarse DWD area, not an address |
 | `users` | Email, argon2 hash, display name, role `administrator` or `educator`, `facility_id`, `active` |
 | `sessions` | SHA-256 of the cookie token, `facility_id`, expiry |
 | `drafts` | Parent-letter draft: status `draft` or `approved`, rendered body, validated fields, `facility_id` |
