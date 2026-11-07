@@ -1,6 +1,6 @@
 # OpenKita AI
 
-**Product:** [https://sticker-topic-apart-unlike.trycloudflare.com](https://sticker-topic-apart-unlike.trycloudflare.com)
+**Product:** [https://quantity-katrina-evaluation-consistent.trycloudflare.com](https://quantity-katrina-evaluation-consistent.trycloudflare.com)
 
 **Demo login:** `leitung@kita-sonnenblume.example` / `openkitaai`
 
