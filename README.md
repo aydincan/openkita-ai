@@ -2,6 +2,8 @@
 
 **Product:** [https://sticker-topic-apart-unlike.trycloudflare.com](https://sticker-topic-apart-unlike.trycloudflare.com)
 
+**Demo login:** `leitung@kita-sonnenblume.example` / `openkitaai`
+
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 **Less paperwork. Better communication. More time for children.**
