@@ -51,6 +51,18 @@ docker compose up --build
 
 > ⚠️ There is no authentication yet. Do not expose this version to the internet.
 
+## Run on GitHub Codespaces
+
+GitHub cannot serve this Docker app as a website. A codespace runs the same stack (database, backend, and frontend) in a private virtual machine.
+
+1. Open this repository on GitHub.
+2. Click **Code → Codespaces → Create codespace on main**.
+3. Wait until the terminal says the stack is healthy. The first start builds the images and writes an untracked `.env`. Set a Codespaces secret named `POSTGRES_PASSWORD` (user or repository secret) before creating the codespace if you want to choose the database password. Otherwise the setup script generates one and keeps it only in that `.env`. Placeholders such as `change-me` are rejected. The script sets `SESSION_COOKIE_SECURE=true` because the forwarded site is HTTPS.
+4. Open the forwarded port **3000** URL and complete first-run setup in the browser (facility and administrator). Nothing is seeded.
+5. Port **8000** is the API health check. Leave both ports private.
+
+Ollama is not part of the default codespace. Parent letters open, and generating a draft shows that the local model is not reachable. No draft is saved.
+
 ## Local development
 
 ```bash

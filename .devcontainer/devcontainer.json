@@ -1,0 +1,20 @@
+{
+  "name": "OpenKita AI",
+  "dockerComposeFile": ["../docker-compose.yml", "docker-compose.codespaces.yml"],
+  "service": "devcontainer",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "forwardPorts": [3000, 8000],
+  "portsAttributes": {
+    "3000": {
+      "label": "OpenKita",
+      "onAutoForward": "notify"
+    },
+    "8000": {
+      "label": "OpenKita API",
+      "onAutoForward": "silent"
+    }
+  },
+  "initializeCommand": "bash .devcontainer/codespaces-up.sh env",
+  "postStartCommand": "bash .devcontainer/codespaces-up.sh proxy",
+  "remoteUser": "vscode"
+}

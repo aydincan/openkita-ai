@@ -1,0 +1,54 @@
+# Overlay for GitHub Codespaces. No secrets belong in this file.
+# The devcontainer service is the container Codespaces attaches to. It shares
+# the Compose network, and codespaces-up.sh proxies frontend:3000 and
+# backend:8000 onto local ports that Codespaces can forward.
+# env_file supplies POSTGRES_PASSWORD from the untracked repo-root .env, so
+# startup does not depend on which directory Compose interpolates from.
+# The forwarded GitHub URL is HTTPS, so the session cookie is Secure.
+services:
+  devcontainer:
+    image: mcr.microsoft.com/devcontainers/base:ubuntu
+    command: sleep infinity
+    depends_on:
+      frontend:
+        condition: service_started
+
+  db:
+    env_file:
+      - path: .env
+        required: true
+    environment: !override
+      POSTGRES_USER: ${POSTGRES_USER:-openkita}
+      POSTGRES_DB: ${POSTGRES_DB:-openkita}
+
+  backend:
+    env_file:
+      - path: .env
+        required: true
+    environment: !override
+      APP_ENV: ${APP_ENV:-production}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      POSTGRES_HOST: db
+      POSTGRES_PORT: "5432"
+      POSTGRES_USER: ${POSTGRES_USER:-openkita}
+      POSTGRES_DB: ${POSTGRES_DB:-openkita}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+      HEALTH_CHECK_TIMEOUT_SECONDS: ${HEALTH_CHECK_TIMEOUT_SECONDS:-3}
+      AI_PROVIDER: ${AI_PROVIDER:-ollama}
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: ${OLLAMA_MODEL:-llama3.1:8b}
+      OLLAMA_GENERATE_TIMEOUT_SECONDS: ${OLLAMA_GENERATE_TIMEOUT_SECONDS:-120}
+      EXTERNAL_AI_ENABLED: "false"
+      SKILLS_DIR: /srv/skills
+      SESSION_TTL_HOURS: ${SESSION_TTL_HOURS:-12}
+      SESSION_COOKIE_SECURE: "true"
+
+  frontend:
+    # Only the public origin. The database password stays out of this container.
+    env_file:
+      - path: .devcontainer/.env.public
+        required: false
+    environment: !override
+      BACKEND_INTERNAL_URL: http://backend:8000
+      BACKEND_TIMEOUT_MS: ${BACKEND_TIMEOUT_MS:-8000}
+      BACKEND_GENERATE_TIMEOUT_MS: ${BACKEND_GENERATE_TIMEOUT_MS:-130000}
